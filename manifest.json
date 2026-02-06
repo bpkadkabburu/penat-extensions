@@ -1,0 +1,56 @@
+{
+  "manifest_version": 3,
+  "name": "SIPD Data Extractor",
+  "version": "1.0.0",
+  "description": "Extension untuk mengekstrak data DPA dari SIPD Kemendagri",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting",
+    "downloads"
+  ],
+  "host_permissions": [
+    "https://sipd.kemendagri.go.id/*",
+    "https://service.sipd.kemendagri.go.id/*"
+  ],
+  "background": {
+    "service_worker": "src/background/service-worker.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://sipd.kemendagri.go.id/*"
+      ],
+      "js": [
+        "src/content/token-extractor.js"
+      ],
+      "run_at": "document_start",
+      "all_frames": false
+    },
+    {
+      "matches": [
+        "https://sipd.kemendagri.go.id/penatausahaan/pengeluaran/dpa/laporan/dpa/*"
+      ],
+      "js": [
+        "src/content/content.js"
+      ],
+      "css": [
+        "src/content/content.css"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

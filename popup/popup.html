@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SIPD Data Extractor</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <h1>SIPD Data Extractor</h1>
+      <p class="subtitle">Pengelola Data Jadwal APBD</p>
+    </header>
+
+    <main>
+      <section class="actions">
+        <button id="fetchJadwalBtn" class="btn btn-primary">
+          <span class="btn-icon">📥</span>
+          Fetch Jadwal
+        </button>
+        <button id="clearDataBtn" class="btn btn-secondary">
+          <span class="btn-icon">🗑️</span>
+          Clear Data
+        </button>
+      </section>
+
+      <section class="status" id="statusSection">
+        <div id="statusMessage" class="status-message"></div>
+      </section>
+
+      <section class="jadwal-list">
+        <h2>Jadwal Tersimpan</h2>
+        <div id="jadwalContainer" class="jadwal-container">
+          <p class="empty-state">Belum ada jadwal. Klik "Fetch Jadwal" untuk memulai.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p class="version">v1.0.0</p>
+    </footer>
+  </div>
+
+  <script src="../src/db/chrome-storage.js"></script>
+  <script src="../src/utils/tab-fetch.js"></script>
+  <script src="../src/utils/api.js"></script>
+  <script src="popup.js"></script>
+</body>
+
+</html>
