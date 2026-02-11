@@ -423,10 +423,7 @@
      */
     async function extractDPAData(skpdId, jadwalId, jadwalName, skpdLabel = null, pageType = 'persetujuan') {
         try {
-            // Show loading indicator
-            showLoadingIndicator();
-
-            // Get token
+            // Get token (loading indicator managed by caller)
             const token = await getAuthToken();
 
             if (!token) {
@@ -486,16 +483,12 @@
             // Download via background script
             await downloadJSON(data, filename);
 
-            // Hide loading indicator
-            hideLoadingIndicator();
-
-            // Show success message
-            showSuccessMessage(`Data tersimpan: ${filename}`);
+            // Success message removed - caller handles notifications
 
         } catch (error) {
             console.error('Error extracting DPA data:', error);
-            hideLoadingIndicator();
-            alert(`Error: ${error.message}`);
+            // Re-throw error so caller can detect failure and save error status
+            throw error;
         }
     }
 
@@ -1025,7 +1018,7 @@
         // Load tracker data for all subgiats
         const trackerDataMap = {};
         for (const subGiat of subKegiatanList) {
-            const trackerId = `${skpdId}_${subGiat.kode_sub_giat}`;
+            const trackerId = `${skpdId}_${subGiat.id_sub_skpd}_${subGiat.kode_sub_giat}`;
             const tracker = await getDownloadTracker('rincian_belanja', trackerId);
             if (tracker) {
                 trackerDataMap[trackerId] = tracker;
@@ -1048,7 +1041,7 @@
             `;
 
             group.items.forEach(subGiat => {
-                const trackerId = `${skpdId}_${subGiat.kode_sub_giat}`;
+                const trackerId = `${skpdId}_${subGiat.id_sub_skpd}_${subGiat.kode_sub_giat}`;
                 const sanitizedId = sanitizeId(trackerId);
                 const tracker = trackerDataMap[trackerId];
 
@@ -1390,7 +1383,7 @@
             btn.onclick = () => {
                 const subGiatJson = btn.getAttribute('data-subgiat');
                 const subGiat = JSON.parse(subGiatJson);
-                const trackerId = `${skpdId}_${subGiat.kode_sub_giat}`;
+                const trackerId = `${skpdId}_${subGiat.id_sub_skpd}_${subGiat.kode_sub_giat}`;
                 const sanitizedId = sanitizeId(trackerId);
                 const optionsDiv = modal.querySelector(`#options-${sanitizedId}`);
 
@@ -1422,7 +1415,7 @@
             btn.onclick = async () => {
                 const subGiatJson = btn.getAttribute('data-subgiat');
                 const subGiat = JSON.parse(subGiatJson);
-                const trackerId = `${skpdId}_${subGiat.kode_sub_giat}`;
+                const trackerId = `${skpdId}_${subGiat.id_sub_skpd}_${subGiat.kode_sub_giat}`;
                 const sanitizedId = sanitizeId(trackerId);
                 const optionsDiv = modal.querySelector(`#options-${sanitizedId}`);
 
@@ -1950,8 +1943,8 @@
         const subGiatName = subGiat.nama_sub_giat || 'Unknown';
         const subGiatCode = subGiat.kode_sub_giat || '';
 
-        // Composite ID for tracking: skpdId_subGiatCode
-        const trackerId = `${skpdId}_${subGiatCode}`;
+        // Composite ID for tracking: skpdId_idSubSkpd_subGiatCode
+        const trackerId = `${skpdId}_${subGiat.id_sub_skpd}_${subGiatCode}`;
 
         let totalFiles = 0;
         let errors = 0;
