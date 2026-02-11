@@ -4,7 +4,8 @@ const API_BASE_URL = 'https://service.sipd.kemendagri.go.id/referensi/strict';
 
 const API_ENDPOINTS = {
     JADWAL_PERGESERAN: `${API_BASE_URL}/laporan/dpa/dpa/jadwal-pergeseran`,
-    HALAMAN_PERSETUJUAN: `${API_BASE_URL}/laporan/dpa/dpa/halaman-persetujuan`
+    HALAMAN_PERSETUJUAN: `${API_BASE_URL}/laporan/dpa/dpa/halaman-persetujuan`,
+    TIM_TAPD: `${API_BASE_URL}/tim-tapd/list`
 };
 
 /**
@@ -89,6 +90,14 @@ async function fetchDPAApproval(skpdId, jadwalId) {
     return await makeAuthenticatedRequest(url);
 }
 
+/**
+ * Fetch tim-tapd data
+ * @returns {Promise<Array>} Tim TAPD list
+ */
+async function fetchTimTapd() {
+    return await makeAuthenticatedRequest(API_ENDPOINTS.TIM_TAPD);
+}
+
 // Export for use in other scripts
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
@@ -96,6 +105,7 @@ if (typeof module !== 'undefined' && module.exports) {
         getDPAApprovalEndpoint,
         makeAuthenticatedRequest,
         fetchJadwal,
-        fetchDPAApproval
+        fetchDPAApproval,
+        fetchTimTapd
     };
 }

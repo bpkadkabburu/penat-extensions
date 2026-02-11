@@ -4,6 +4,48 @@ All notable changes and fixes to the SIPD Data Extractor extension.
 
 ---
 
+## v1.1.0 - 2026-02-11
+
+### Fixed
+
+#### 🔧 Bug Fix #1: Rincian Belanja Download History per Sub-SKPD
+**Problem:** Download history checkmarks were incorrectly shared across different sub-SKPDs that shared the same sub-activity codes.
+
+**Solution:** Updated tracker ID format from `skpdId_kode_sub_giat` to `skpdId_id_sub_skpd_kode_sub_giat`
+
+**Impact:** Each sub-SKPD now maintains independent download history (e.g., Dinas Pendidikan Kebudayaan vs Sanggar Kegiatan).
+
+**Files Changed:** `src/content/content.js` (lines 1028, 1051, 1393, 1425, 1954)
+
+---
+
+#### 🔧 Bug Fix #2: Error Status Tracking in Batch Menus
+**Problem:** All downloads showed checkmarks even when they failed with HTTP errors (500, 419, etc.) in batch menus.
+
+**Solution:** Fixed `extractDPAData` to re-throw errors instead of swallowing them, enabling proper error tracking.
+
+**Impact:** ✅ Checkmarks only for successful downloads, ❌ Error indicators for failures
+
+**Files Changed:** `src/content/content.js` (line 497)
+
+---
+
+#### ✨ UX Improvement: Loading Overlay Behavior
+**Problem:** Loading overlay flashed on/off for each file during batch downloads.
+
+**Solution:** Removed redundant loading calls from `extractDPAData` - caller manages loading state.
+
+**Impact:** Smooth loading UX - overlay shows once at start, persists during batch, hides once at end.
+
+**Files Changed:** `src/content/content.js` (lines 426-427, 489-493, 497)
+
+---
+
+### Migration Notes
+Existing download history won't be readable due to tracker ID format change. Users can clear old history: `chrome.storage.local.remove('sipd_tracker_rincian_belanja');`
+
+---
+
 ## v1.0.0 - Initial Release
 
 ### Features

@@ -51,7 +51,19 @@ document.addEventListener('DOMContentLoaded', async () => {
             // Save to IndexedDB
             await saveJadwal(jadwalData);
 
-            showStatus(`Berhasil menyimpan ${jadwalData.length} jadwal`, 'success');
+            // Download jadwal JSON to SIPD-Output folder
+            showStatus('Downloading jadwal.json...', 'loading');
+            await downloadJSON(jadwalData, 'SIPD-Output/jadwal.json');
+
+            // Fetch and download tim-tapd JSON
+            showStatus('Fetching tim-tapd data...', 'loading');
+            const timTapdUrl = 'https://service.sipd.kemendagri.go.id/referensi/strict/tim-tapd/list';
+            const timTapdData = await fetchFromSIPDTab(timTapdUrl, token);
+
+            showStatus('Downloading tim-tapd.json...', 'loading');
+            await downloadJSON(timTapdData, 'SIPD-Output/tim-tapd.json');
+
+            showStatus(`Berhasil: ${jadwalData.length} jadwal + JSON files downloaded`, 'success');
             await loadJadwalList();
 
         } catch (error) {
@@ -84,6 +96,33 @@ document.addEventListener('DOMContentLoaded', async () => {
             setLoading(clearDataBtn, false);
         }
     });
+
+    /**
+     * Download data as JSON file via Background Script
+     * @param {Object} data - Data to download
+     * @param {string} filename - Relative path/filename
+     */
+    async function downloadJSON(data, filename) {
+        const jsonString = JSON.stringify(data, null, 2);
+        const base64Data = btoa(unescape(encodeURIComponent(jsonString)));
+        const dataUrl = `data:application/json;base64,${base64Data}`;
+
+        return new Promise((resolve, reject) => {
+            chrome.runtime.sendMessage({
+                action: 'downloadFile',
+                dataUrl: dataUrl,
+                filename: filename
+            }, (response) => {
+                if (chrome.runtime.lastError) {
+                    reject(new Error(chrome.runtime.lastError.message));
+                } else if (response && response.success) {
+                    resolve();
+                } else {
+                    reject(new Error(response?.error || 'Download failed'));
+                }
+            });
+        });
+    }
 
     /**
      * Load and display jadwal list
