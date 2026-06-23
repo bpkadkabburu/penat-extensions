@@ -1,0 +1,504 @@
+/* Dashboard Realisasi Content Script Styles */
+
+/* Extract Button Container - same as existing */
+.sipd-dashboard-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+}
+
+/* Extract Button - same gradient as existing */
+.sipd-dashboard-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    transition: all 0.3s ease;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.sipd-dashboard-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(102, 126, 234, 0.5);
+}
+
+.sipd-dashboard-btn:active {
+    transform: translateY(0);
+}
+
+.sipd-dashboard-btn .sipd-icon {
+    font-size: 18px;
+}
+
+/* Modal Overlay */
+.sipd-realisasi-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: sipdFadeIn 0.2s ease;
+}
+
+@keyframes sipdFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Modal Content */
+.sipd-realisasi-modal-content {
+    background: white;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 800px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: sipdSlideUp 0.3s ease;
+    overflow: hidden;
+}
+
+@keyframes sipdSlideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* Modal Header */
+.sipd-realisasi-modal-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid #e9ecef;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px 12px 0 0;
+}
+
+.sipd-realisasi-modal-header h2 {
+    margin: 0;
+    font-size: 20px;
+    color: white;
+    font-weight: 700;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.sipd-realisasi-modal-close {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    font-size: 28px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    transition: all 0.2s ease;
+}
+
+.sipd-realisasi-modal-close:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: rotate(90deg);
+}
+
+/* Modal Body */
+.sipd-realisasi-modal-body {
+    padding: 20px 24px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+/* Scrollbar Styling */
+.sipd-realisasi-modal-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sipd-realisasi-modal-body::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.sipd-realisasi-modal-body::-webkit-scrollbar-thumb {
+    background: #667eea;
+    border-radius: 3px;
+}
+
+.sipd-realisasi-modal-body::-webkit-scrollbar-thumb:hover {
+    background: #5568d3;
+}
+
+/* Info Box */
+.sipd-realisasi-info {
+    background: #fff3e0;
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    border: 1px solid #ffe0b2;
+    font-size: 13px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.sipd-realisasi-info p {
+    margin: 4px 0;
+}
+
+.sipd-realisasi-info .sipd-info-hint {
+    font-size: 12px;
+    color: #666;
+    margin-top: 8px;
+}
+
+/* SKPD Group */
+.sipd-skpd-group {
+    margin-bottom: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: white;
+    overflow: hidden;
+}
+
+.sipd-skpd-group-header {
+    padding: 10px 14px;
+    background: #e3f2fd;
+    border-bottom: 1px solid #90caf9;
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.sipd-skpd-group-header:hover {
+    background: #bbdefb;
+}
+
+.sipd-skpd-group-header .sipd-toggle-icon {
+    font-size: 12px;
+    transition: transform 0.2s;
+}
+
+.sipd-skpd-group-header.collapsed .sipd-toggle-icon {
+    transform: rotate(-90deg);
+}
+
+/* Sub-SKPD List */
+.sipd-sub-skpd-list {
+    padding: 4px 8px;
+}
+
+.sipd-sub-skpd-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    border-bottom: 1px solid #f0f0f0;
+    border-radius: 4px;
+    transition: background 0.15s;
+}
+
+.sipd-sub-skpd-item:last-child {
+    border-bottom: none;
+}
+
+.sipd-sub-skpd-item:hover {
+    background: #f5f5f5;
+}
+
+/* Status Color Coding */
+.sipd-sub-skpd-item.status-complete {
+    border-left: 4px solid #4caf50;
+    background: #f1f8f4;
+}
+
+.sipd-sub-skpd-item.status-partial {
+    border-left: 4px solid #ff9800;
+    background: #fff8f0;
+}
+
+.sipd-sub-skpd-item.status-error {
+    border-left: 4px solid #f44336;
+    background: #fef5f5;
+}
+
+.sipd-sub-skpd-item.status-pending {
+    border-left: 4px solid #9e9e9e;
+}
+
+.sipd-sub-skpd-item.status-processing {
+    border-left: 4px solid #2196f3;
+    background: #e3f2fd;
+}
+
+/* Sub-SKPD Info */
+.sipd-sub-skpd-info {
+    flex: 1;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.sipd-sub-skpd-info label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    flex: 1;
+}
+
+.sipd-sub-skpd-info input[type="checkbox"] {
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+}
+
+.sipd-sub-skpd-code {
+    display: inline-block;
+    background: #fff3e0;
+    color: #e65100;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: monospace;
+    font-size: 11px;
+    white-space: nowrap;
+}
+
+.sipd-sub-skpd-name {
+    color: #333;
+}
+
+/* Status Badge */
+.sipd-realisasi-badge {
+    display: inline-block;
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 3px;
+    margin-right: 6px;
+    font-weight: bold;
+}
+
+.sipd-realisasi-badge.success {
+    background: #c8e6c9;
+    color: #2e7d32;
+}
+
+.sipd-realisasi-badge.partial {
+    background: #ffe0b2;
+    color: #e65100;
+}
+
+.sipd-realisasi-badge.error {
+    background: #ffcdd2;
+    color: #c62828;
+}
+
+.sipd-realisasi-badge.processing {
+    background: #bbdefb;
+    color: #1565c0;
+}
+
+/* Download Button for individual sub-skpd */
+.sipd-sub-skpd-download-btn {
+    background: #4caf50;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    white-space: nowrap;
+    transition: background 0.2s;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.sipd-sub-skpd-download-btn:hover {
+    background: #45a049;
+}
+
+.sipd-sub-skpd-download-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+/* Action Buttons Row */
+.sipd-realisasi-actions {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+.sipd-realisasi-select-all,
+.sipd-realisasi-deselect-all {
+    background: #757575;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: background 0.2s;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.sipd-realisasi-select-all:hover,
+.sipd-realisasi-deselect-all:hover {
+    background: #616161;
+}
+
+.sipd-realisasi-download-selected {
+    background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.2s;
+    margin-left: auto;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.sipd-realisasi-download-selected:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
+}
+
+.sipd-realisasi-download-selected:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Sub-SKPD List Container */
+.sipd-sub-skpd-container {
+    max-height: 500px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 8px;
+    background: #fafafa;
+}
+
+/* Loading Overlay */
+.sipd-realisasi-loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    z-index: 10001;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sipd-realisasi-loader-content {
+    text-align: center;
+    color: white;
+    max-width: 500px;
+    padding: 30px;
+}
+
+.sipd-realisasi-spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: sipdSpin 0.8s linear infinite;
+    margin: 0 auto 16px;
+}
+
+@keyframes sipdSpin {
+    to { transform: rotate(360deg); }
+}
+
+.sipd-realisasi-loader-content p {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 12px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* Progress Bar */
+.sipd-progress-bar-container {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 12px;
+}
+
+.sipd-progress-bar {
+    height: 8px;
+    background: linear-gradient(135deg, #4caf50 0%, #81c784 100%);
+    border-radius: 8px;
+    transition: width 0.3s ease;
+    width: 0%;
+}
+
+.sipd-progress-text {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.8);
+    margin-top: 8px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* Toast Notifications */
+.sipd-realisasi-toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    z-index: 10002;
+    font-size: 14px;
+    font-weight: 600;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    max-width: 400px;
+}
+
+.sipd-realisasi-toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.sipd-realisasi-toast.success {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+}
+
+.sipd-realisasi-toast.error {
+    background: linear-gradient(135deg, #f44336 0%, #e91e63 100%);
+}

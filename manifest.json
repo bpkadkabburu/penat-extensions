@@ -38,6 +38,19 @@
         "src/content/content.css"
       ],
       "run_at": "document_idle"
+    },
+    {
+      "matches": [
+        "https://sipd.kemendagri.go.id/penatausahaan/dashboard",
+        "https://sipd.kemendagri.go.id/penatausahaan/dashboard/"
+      ],
+      "js": [
+        "src/content/dashboard-realisasi.js"
+      ],
+      "css": [
+        "src/content/dashboard-realisasi.css"
+      ],
+      "run_at": "document_idle"
     }
   ],
   "action": {

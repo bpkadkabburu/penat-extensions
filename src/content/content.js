@@ -430,6 +430,10 @@
                 throw new Error('Token tidak ditemukan. Silakan refresh halaman SIPD.');
             }
 
+            // Parse JWT for tahun
+            const jwt = parseJwt(token);
+            const tahun = (jwt && jwt.tahun) ? jwt.tahun : new Date().getFullYear();
+
             // API endpoint based on page type
             const apiEndpoints = {
                 'persetujuan': `https://service.sipd.kemendagri.go.id/referensi/strict/laporan/dpa/dpa/halaman-persetujuan/${skpdId}/${jadwalId}`,
@@ -469,7 +473,7 @@
             };
             const outputFilename = filenames[pageType] || filenames['persetujuan'];
 
-            // Format filename: SIPD-Output/[Nama Jadwal]/[SKPD Label or ID]/[output file]
+            // Format filename: SIPD-Output/{tahun}/[Nama Jadwal]/[SKPD Label or ID]/[output file]
             // Clean filename characters to avoid invalid paths
             const safeJadwalName = (jadwalName ? String(jadwalName) : 'Jadwal');
             const safeSkpdFolder = skpdLabel ? String(skpdLabel) : String(skpdId || '0');
@@ -477,8 +481,8 @@
             const cleanJadwalName = safeJadwalName.replace(/[/\\?%*:|"<>]/g, '-').trim();
             const cleanSkpdFolder = safeSkpdFolder.replace(/[/\\?%*:|"<>]/g, '-').trim();
 
-            // Construct path: SIPD-Output/NamaJadwal/SkpdLabel/[filename]
-            const filename = `SIPD-Output/${cleanJadwalName}/${cleanSkpdFolder}/${outputFilename}`;
+            // Construct path: SIPD-Output/{tahun}/NamaJadwal/SkpdLabel/[filename]
+            const filename = `SIPD-Output/${tahun}/${cleanJadwalName}/${cleanSkpdFolder}/${outputFilename}`;
 
             // Download via background script
             await downloadJSON(data, filename);
@@ -2070,11 +2074,15 @@
 
             const data = await response.json();
 
-            // Build filename path to match existing folder structure:
-            // SIPD-Output/{JadwalName}/{NamaSKPD}/{NamaSubSKPD}/{nama_subgiat}.json
+            // Build filename path to match folder structure:
+            // SIPD-Output/{tahun}/{JadwalName}/{NamaSKPD}/{NamaSubSKPD}/{nama_subgiat}.json
             const jadwalName = jadwal.jadwal_sipd_penatausahaan || jadwal.nama_jadwal || jadwal.nama || 'Jadwal';
             const skpdNama = subGiat.nama_skpd || `SKPD_${skpdId}`;
             const subSkpdNama = subGiat.nama_sub_skpd || 'Sub-SKPD';
+
+            // Get tahun from JWT
+            const rincianJwt = parseJwt(token);
+            const rincianTahun = (rincianJwt && rincianJwt.tahun) ? rincianJwt.tahun : new Date().getFullYear();
 
             // Sanitize and create safe names
             const safeJadwalName = String(jadwalName).replace(/[/\\?%*:|"<>]/g, '-').trim();
@@ -2087,7 +2095,7 @@
             // Sanitize filename (kode shouldn't have invalid chars, but to be safe)
             const safeSubGiatFileName = String(subGiatFileName).replace(/[/\\?%*:|"<>]/g, '-').trim();
 
-            const filename = `SIPD-Output/${safeJadwalName}/${safeSkpdNama}/${safeSubSkpdNama}/${safeSubGiatFileName}.json`;
+            const filename = `SIPD-Output/${rincianTahun}/${safeJadwalName}/${safeSkpdNama}/${safeSubSkpdNama}/${safeSubGiatFileName}.json`;
 
             // Download via background script
             await downloadJSON(data, filename);
