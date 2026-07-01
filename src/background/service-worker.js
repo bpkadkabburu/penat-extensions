@@ -21,7 +21,50 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         handleDownload(request.dataUrl, request.filename, sendResponse);
         return true;
     }
+
+    if (request.action === 'postDokumenRealisasi') {
+        handlePostDokumenRealisasi(request.payload, sendResponse);
+        return true;
+    }
+
+    if (request.action === 'openOptions') {
+        chrome.runtime.openOptionsPage();
+        return false;
+    }
 });
+
+/**
+ * POST data realisasi per dokumen ke server bpkad-superapps.
+ * Dilakukan dari service worker agar tidak terkena CORS (tidak ada Origin header
+ * seperti request dari halaman).
+ * @param {{ apiUrl: string, token: string, tahun: number, bulan: number, data: Array }} payload
+ * @param {Function} sendResponse
+ */
+async function handlePostDokumenRealisasi(payload, sendResponse) {
+    try {
+        const { apiUrl, token, tahun, bulan, data } = payload;
+
+        const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ tahun, bulan, data })
+        });
+
+        if (!response.ok) {
+            const text = await response.text().catch(() => '');
+            throw new Error(`HTTP ${response.status}${text ? ': ' + text.substring(0, 200) : ''}`);
+        }
+
+        const respJson = await response.json().catch(() => ({}));
+        sendResponse({ success: true, data: { total: data.length, response: respJson } });
+    } catch (error) {
+        console.error('Error posting dokumen realisasi:', error);
+        sendResponse({ success: false, error: error.message });
+    }
+}
 
 /**
  * Handle file download request

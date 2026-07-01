@@ -11,7 +11,9 @@
   ],
   "host_permissions": [
     "https://sipd.kemendagri.go.id/*",
-    "https://service.sipd.kemendagri.go.id/*"
+    "https://service.sipd.kemendagri.go.id/*",
+    "http://localhost/*",
+    "http://127.0.0.1/*"
   ],
   "background": {
     "service_worker": "src/background/service-worker.js"
@@ -51,8 +53,26 @@
         "src/content/dashboard-realisasi.css"
       ],
       "run_at": "document_idle"
+    },
+    {
+      "matches": [
+        "https://sipd.kemendagri.go.id/penatausahaan/penatausahaan/pengeluaran/laporan/realisasi",
+        "https://sipd.kemendagri.go.id/penatausahaan/penatausahaan/pengeluaran/laporan/realisasi/*"
+      ],
+      "js": [
+        "src/content/dokumen-realisasi.js"
+      ],
+      "css": [
+        "src/content/dashboard-realisasi.css",
+        "src/content/dokumen-realisasi.css"
+      ],
+      "run_at": "document_idle"
     }
   ],
+  "options_ui": {
+    "page": "options/options.html",
+    "open_in_tab": true
+  },
   "action": {
     "default_popup": "popup/popup.html",
     "default_icon": {
