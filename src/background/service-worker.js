@@ -37,18 +37,18 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
  * POST data realisasi per dokumen ke server bpkad-superapps.
  * Dilakukan dari service worker agar tidak terkena CORS (tidak ada Origin header
  * seperti request dari halaman).
- * @param {{ apiUrl: string, token: string, tahun: number, bulan: number, data: Array }} payload
+ * @param {{ apiUrl: string, apiKey: string, tahun: number, bulan: number, data: Array }} payload
  * @param {Function} sendResponse
  */
 async function handlePostDokumenRealisasi(payload, sendResponse) {
     try {
-        const { apiUrl, token, tahun, bulan, data } = payload;
+        const { apiUrl, apiKey, tahun, bulan, data } = payload;
 
         const response = await fetch(apiUrl, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                'x-api-key': apiKey
             },
             body: JSON.stringify({ tahun, bulan, data })
         });

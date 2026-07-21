@@ -8,7 +8,7 @@
     const BASE_URL = 'https://service.sipd.kemendagri.go.id';
     // Endpoint SIPD: cetak?tipe=dokumen&skpd=0&bulan=N  (N = 1..12)
     const CETAK_ENDPOINT = '/pengeluaran/strict/laporan/realisasi/cetak';
-    const DEST_PATH = '/api/sumber-data/dokumen-realisasi';
+    const DEST_PATH = '/api/sync/dokumen-realisasi';
 
     const BULAN_NAMES = [
         '', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
@@ -186,11 +186,11 @@
      * POST data 1 bulan ke bpkad-superapps via service worker (hindari CORS).
      * @returns {Promise<{total:number}>}
      */
-    function postToServer(destApiUrl, destToken, tahun, bulan, data) {
+    function postToServer(destApiUrl, destApiKey, tahun, bulan, data) {
         return new Promise((resolve, reject) => {
             chrome.runtime.sendMessage({
                 action: 'postDokumenRealisasi',
-                payload: { apiUrl: destApiUrl, token: destToken, tahun, bulan, data }
+                payload: { apiUrl: destApiUrl, apiKey: destApiKey, tahun, bulan, data }
             }, (res) => {
                 if (chrome.runtime.lastError) {
                     reject(new Error(chrome.runtime.lastError.message));
