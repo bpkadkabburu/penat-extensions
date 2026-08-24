@@ -67,6 +67,34 @@
         "src/content/dokumen-realisasi.css"
       ],
       "run_at": "document_idle"
+    },
+    {
+      "matches": [
+        "https://sipd.kemendagri.go.id/penatausahaan/pengeluaran/spm/pembuatan",
+        "https://sipd.kemendagri.go.id/penatausahaan/pengeluaran/spm/pembuatan/*"
+      ],
+      "js": [
+        "src/lib/xlsx.mini.min.js",
+        "src/content/spm-pembuatan.js"
+      ],
+      "css": [
+        "src/content/dashboard-realisasi.css"
+      ],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": [
+        "https://sipd.kemendagri.go.id/penatausahaan/pengeluaran/sp2d/pencairan",
+        "https://sipd.kemendagri.go.id/penatausahaan/pengeluaran/sp2d/pencairan/*"
+      ],
+      "js": [
+        "src/lib/xlsx.mini.min.js",
+        "src/content/sp2d-pencairan.js"
+      ],
+      "css": [
+        "src/content/dashboard-realisasi.css"
+      ],
+      "run_at": "document_idle"
     }
   ],
   "options_ui": {
