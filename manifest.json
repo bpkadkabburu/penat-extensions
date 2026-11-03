@@ -34,6 +34,7 @@
         "https://sipd.kemendagri.go.id/penatausahaan/pengeluaran/dpa/laporan/dpa/*"
       ],
       "js": [
+        "src/content/draggable.js",
         "src/content/content.js"
       ],
       "css": [
@@ -47,6 +48,7 @@
         "https://sipd.kemendagri.go.id/penatausahaan/dashboard/"
       ],
       "js": [
+        "src/content/draggable.js",
         "src/content/dashboard-realisasi.js"
       ],
       "css": [
@@ -60,6 +62,7 @@
         "https://sipd.kemendagri.go.id/penatausahaan/penatausahaan/pengeluaran/laporan/realisasi/*"
       ],
       "js": [
+        "src/content/draggable.js",
         "src/content/dokumen-realisasi.js"
       ],
       "css": [
@@ -75,6 +78,7 @@
       ],
       "js": [
         "src/lib/xlsx.mini.min.js",
+        "src/content/draggable.js",
         "src/content/spm-pembuatan.js"
       ],
       "css": [
@@ -89,7 +93,23 @@
       ],
       "js": [
         "src/lib/xlsx.mini.min.js",
+        "src/content/draggable.js",
         "src/content/sp2d-pencairan.js"
+      ],
+      "css": [
+        "src/content/dashboard-realisasi.css"
+      ],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": [
+        "https://sipd.kemendagri.go.id/penatausahaan/penerimaan/stbp/pendapatan",
+        "https://sipd.kemendagri.go.id/penatausahaan/penerimaan/stbp/pendapatan/*"
+      ],
+      "js": [
+        "src/lib/xlsx.mini.min.js",
+        "src/content/draggable.js",
+        "src/content/stbp-pendapatan.js"
       ],
       "css": [
         "src/content/dashboard-realisasi.css"
